@@ -6,26 +6,30 @@
 
 using namespace std;
 
+// Node structure
 struct Node {
-    char data;
-    int frequency;
+    char data; // symbol
+    int frequency; 
     Node* left;
     Node* right;
 
     Node(char d, int freq) : data(d), frequency(freq), left(nullptr), right(nullptr) {}
 };
 
+// Struct that returns bigger node
 struct compare {
     bool operator()(Node* left, Node* right) {
         return left->frequency > right->frequency;
     }
 };
 
+// Class for coding word
 class Huf_code {
 private:
     unordered_map<char, string> codes;
     unordered_map<char, double> prob;
 
+    // Codes generation method
     void gen_codes(Node* root, string code) {
         if (root == nullptr)
             return;
@@ -39,9 +43,8 @@ private:
     }
 
 public:
-    Huf_code() {}
-
-    void compress(string word) {
+    // Huffman algorithm
+    void huff(string word) {
         unordered_map<char, int> freq;
         for (char c : word) {
             freq[c]++;
@@ -76,6 +79,7 @@ public:
         delete root;
     }
 
+    // Method for output codes & probabilites in console
     void print() {
         cout << setw(8) << left << "Symbol" << setw(15) << left << "Huffman Code" << "Probability\n";
         for (auto pair : codes) {
@@ -90,7 +94,7 @@ int main() {
     cin >> word;
 
     Huf_code huff;
-    huff.compress(word);
+    huff.huff(word);
     huff.print();
 
     return 0;
